@@ -1,24 +1,38 @@
 import React from 'react';
+import Search from './Search'
 import './App.css';
 
-function App(responseObj) {
-  let bookArr = responseObj.items;
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: '',
+      items: []
+    };
+  }
 
-  bookArr.map(obj => {
+  search() {
+    const API_URL = 'https://www.googleapis.com/books/v1/volumes?q='
+    fetch(`${API_URL}${this.state.query}&key=AIzaSyBya77hXl5T1yFWgEkl70tjngdgPDjNK1Y`)
+    .then(res => res.json())
+    .then(json => {
+      let {items} = json;
+      this.setState({items})
+    });
+  }
+
+  render() {
     return (
-      `<section className="book">
-        <h1>${obj.volumeInfo.title}</h1>
-        <img src="${obj.imageLinks.small}" />
-        <p>Author:${obj.volumeInfo.authors}</p>
-
-      </section>`
+      <div className="App">
+        <header className="app-header">
+          <h1 className="app-title">Google Book Search</h1>
+        </header>
+        <form className="main-container">
+          <input type="text" placeholder="Search for a book"/>
+          <button type="submit">Search</button>
+        </form>
+      </div>
     )
-  })
-
-  return (
-<>
-</>
-  );
+  }
 }
 
-export default App;
