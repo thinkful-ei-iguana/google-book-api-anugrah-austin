@@ -1,5 +1,4 @@
 import React from 'react';
-import Search from './Search'
 import './App.css';
 
 export default class App extends React.Component {
@@ -23,10 +22,33 @@ export default class App extends React.Component {
       this.setState({
         items: books,
       })
+      //renderBookResults(books);
     })
   }
 
+
+renderBookResults = (resObj) => {
+
+    resObj.map(obj => {
+      return (
+      <div className="results">
+        <h1>{obj.volumeInfo.title}</h1>
+        <img src={obj.volumeInfo.imageLinks.thumbnail} alt="thumbnail of the book"></img>
+        <p>Author:{obj.volumeInfo.authors} </p>
+        <p>Price: {obj.saleInfo}</p>
+  
+        <p>{obj.volumeInfo.description}</p>
+  
+      </div>
+  
+    )})
+  
+    }
+
+
+
   render() {
+    
     return (
       <div className="App">
         <header className="app-header">
